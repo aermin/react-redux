@@ -25,7 +25,7 @@ class ThemeSwitch extends Component {
 
   changeColor(color){
      const {store}= this.context;
-     store.dispatch({
+     store.dispatch({ //每次dispatch都会执行reducer函数返回新的state且执行订阅队列里的函数
        type:'CHANGE_COLOR',
        themeColor: color
      })
