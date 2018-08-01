@@ -20,7 +20,7 @@ class Content extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => { //将一个全局state通过props传入<Content />
   return {
     themeColor: state.themeColor
   }

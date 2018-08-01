@@ -1,46 +1,44 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from './react-redux'
 
 class ThemeSwitch extends Component {
-  static contextTypes = {
-    store: PropTypes.object
+  static propTypes = {
+    themeColor: PropTypes.string,
+    changeColor: PropTypes.func
   }
 
-  constructor () {
-    super()
-    this.state = { themeColor: '' }
-  }
-
-  _updateThemeColor () {
-    const { store } = this.context
-    const state = store.getState()
-    this.setState({ themeColor: state.themeColor })
-  }
-
-  componentWillMount () {
-    const { store } = this.context;
-    this._updateThemeColor();
-    store.subscribe(() => this._updateThemeColor());
-  }
-
-  changeColor(color){
-     const {store}= this.context;
-     store.dispatch({ //每次dispatch都会执行reducer函数返回新的state且执行订阅队列里的函数
-       type:'CHANGE_COLOR',
-       themeColor: color
-     })
+  handleSwitchColor (color) {
+    if (this.props.onSwitchColor) {
+      this.props.onSwitchColor(color)
+    }
   }
 
   render () {
     return (
       <div>
-        <button style={{ color: this.state.themeColor }}
-        onClick={this.changeColor.bind(this,'red')}>Red</button>
-        <button style={{ color: this.state.themeColor }}
-        onClick={this.changeColor.bind(this,'blue')}>Blue</button>
+        <button style={{ color: this.props.themeColor }}
+        onClick={this.handleSwitchColor.bind(this,'red')}>Red</button>
+        <button style={{ color: this.props.themeColor }}
+        onClick={this.handleSwitchColor.bind(this,'blue')}>Blue</button>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    themeColor: state.themeColor
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSwitchColor: (color) => {
+      dispatch({ type: 'CHANGE_COLOR', themeColor: color })
+    }
+  }
+}
+
+ThemeSwitch = connect(mapStateToProps, mapDispatchToProps)(ThemeSwitch)
 
 export default ThemeSwitch
