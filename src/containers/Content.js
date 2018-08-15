@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ThemeSwitch from './ThemeSwitch'
-import { connect } from './react-redux'
+import { connect } from 'react-redux'
 
 class Content extends Component {
 
-  static contextTypes = {
-    store: PropTypes.object
+  static propTypes = {
+    themeColor: PropTypes.string
   }
 
 
@@ -26,7 +26,4 @@ const mapStateToProps = (state) => { //将一个全局state通过props传入<Con
   }
 }
 
-Content = connect(mapStateToProps)(Content)
-
-
-export default Content
+export default connect(mapStateToProps)(Content)
